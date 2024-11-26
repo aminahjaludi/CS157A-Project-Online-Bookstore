@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,19 +8,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="home-container">
-        <h1>Welcome to the Online Bookstore</h1>
-        <nav class="navigation">
-            <ul>
-                <li><a href="auth.jsp">Login</a></li>
-                <li><a href="search.jsp">Search Books</a></li>
-                <li><a href="order.jsp">Place an Order</a></li>
-                <li><a href="review.jsp">Submit a Review</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="image-container">
-        <img src="book3.png" alt="Book Image">
-    </div>
+<div class="home-container">
+    <h1>Welcome to the Online Bookstore</h1>
+    <nav class="navigation">
+        <ul>
+            <li><a href="<%= request.getContextPath() %>/auth.jsp">Login</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="image-container">
+    <img src="<%= request.getContextPath() %>/book3.png" alt="Book Image">
+</div>
 </body>
 </html>
