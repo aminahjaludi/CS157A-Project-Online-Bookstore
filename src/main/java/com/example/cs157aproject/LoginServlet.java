@@ -40,10 +40,13 @@ public class LoginServlet extends HttpServlet {
             // Check if user credentials are valid
             if (resultSet.next()) {
                 // Successful login logic
+                // Store the user's email in the session
+                request.getSession().setAttribute("userEmail", email);
+
                 response.sendRedirect("dashboard.html");  // Redirect to Dashboard.html
             } else {
                 // Failed login logic
-                response.getWriter().write("Invalid username or password.");
+                response.sendRedirect("auth.jsp");
             }
 
             // Close the connection and resources
@@ -56,6 +59,8 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
+
+
 
 
 

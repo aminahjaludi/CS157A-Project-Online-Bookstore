@@ -41,7 +41,7 @@ public class SignupServlet extends HttpServlet {
             if (rowsInserted > 0) {
                 response.sendRedirect("auth.jsp");
             } else {
-                response.getWriter().write("Sign up failed. Please try again.");
+                response.sendRedirect("signup.html");
             }
 
             // Close the connection and resources
@@ -55,3 +55,4 @@ public class SignupServlet extends HttpServlet {
         }
     }
 }
+
