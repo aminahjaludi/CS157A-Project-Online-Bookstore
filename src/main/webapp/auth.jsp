@@ -16,9 +16,17 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <button type="submit">Login</button>
-        <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p>Don't have an account? <a href="signup.jsp">Sign Up</a></p>
     </form>
     <a href="index.jsp" class="home-link">Home</a>
+    <%
+        String errorMessage = (String) request.getAttribute("login_error_msg");
+        if (errorMessage != null) {
+    %>
+    <p style="color: red;"><%= errorMessage %></p>
+    <%
+        }
+    %>
 </div>
 </body>
 </html>

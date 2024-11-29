@@ -15,10 +15,20 @@
         <input type="email" id="email" name="email" required>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
+        <p>Password must contain at least 8 characters, at least 1 uppercase, at least 1 lowercase letter, at least 1 number, and at least 1 special character.</p>
         <button type="submit">Sign Up</button>
         <p>Already have an account? <a href="auth.jsp">Login</a></p>
     </form>
     <a href="index.jsp" class="home-link">Home</a>
+
+    <%
+        String errorMessage = (String) request.getAttribute("signup_error_msg");
+        if (errorMessage != null) {
+    %>
+    <p style="color: red;"><%= errorMessage %></p>
+    <%
+        }
+    %>
 </div>
 </body>
 </html>

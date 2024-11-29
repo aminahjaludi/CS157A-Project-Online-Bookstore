@@ -2,6 +2,9 @@
 package com.example.cs157aproject;
 
 import java.sql.*;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +20,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         // SQL query to check user credentials
-        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
+        String query = "SELECT * FROM users WHERE email = ? AND password = SHA(?)";
 
         // Initialize database connection and resources
         try {
@@ -46,7 +49,10 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("dashboard.html");  // Redirect to Dashboard.html
             } else {
                 // Failed login logic
-                response.sendRedirect("auth.jsp");
+                request.setAttribute("login_error_msg", "Email and password combination are incorrect.");
+
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/auth.jsp");
+                rd.forward(request, response);
             }
 
             // Close the connection and resources
@@ -56,6 +62,8 @@ public class LoginServlet extends HttpServlet {
         } catch (SQLException e) {
             // Handle SQL exceptions
             e.printStackTrace();
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
         }
     }
 }
