@@ -57,7 +57,7 @@ public class SignupServlet extends HttpServlet {
         }
 
         // All conditions were satisfied
-        if (!hasUpperCase || !hasLowerCase || !hasDigit || !hasSpecialChar) {
+        if (!hasUpperCase || !hasLowerCase || !hasDigit || !hasSpecialChar || !isEightChars) {
             request.setAttribute("signup_error_msg", error_msg.toString());
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/signup.jsp");
             try {
