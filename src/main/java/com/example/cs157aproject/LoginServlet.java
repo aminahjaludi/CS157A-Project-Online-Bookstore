@@ -28,7 +28,7 @@ public class LoginServlet extends HttpServlet {
             Connection connection = DriverManager.getConnection(
                     "jdbc:mysql://127.0.0.1:3306/test_schema",
                     "root",
-                    "milk2000A");
+                    "Bear12254648Iloveyou@");
 
             // Create PreparedStatement
             PreparedStatement statement = connection.prepareStatement(query);

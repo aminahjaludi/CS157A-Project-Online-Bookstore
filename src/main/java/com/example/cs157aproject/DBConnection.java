@@ -8,7 +8,7 @@ public class DBConnection {
 
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/test_schema";
     private static final String USER = "root"; // Replace with your MySQL username
-    private static final String PASSWORD = "milk2000A"; // Replace with your MySQL password
+    private static final String PASSWORD = "Bear12254648Iloveyou@"; // Replace with your MySQL password
 
     public static Connection getConnection() throws SQLException {
         try {
