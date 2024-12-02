@@ -21,7 +21,8 @@
         <% for (Book book : books) { %>
         <li>
             <p><strong>Book:</strong> <%= book.getTitle() %></p>
-            <p><strong>Quantity:</strong> <%= book.getQuantity() %></p> <!-- Display quantity -->
+            <p><strong>Quantity:</strong> <%= book.getQuantity() %></p>
+            <p><strong>Price:</strong> $<%= book.getPrice() %></p> <!-- Display price -->
         </li>
         <% } %>
     </ul>

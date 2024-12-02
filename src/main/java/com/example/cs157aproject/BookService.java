@@ -14,23 +14,24 @@ public class BookService {
     public List<Book> searchBooks(String searchQuery) {
         List<Book> books = new ArrayList<>();
 
-        // SQL query to search books using the correct column name 'book_name'
-        String sql = "SELECT book_name, quantity FROM books WHERE book_name LIKE ?";
+        // SQL query to search books
+        String sql = "SELECT book_name, quantity, price FROM books WHERE book_name LIKE ?";
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Set the search query in the prepared statement (wildcards for partial match)
+            // Set the search query in the prepared statement
             stmt.setString(1, "%" + searchQuery + "%");
 
             // Execute the query
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    String bookName = rs.getString("book_name");  // Updated to 'book_name'
+                    String bookName = rs.getString("book_name");
                     int quantity = rs.getInt("quantity");
+                    double price = rs.getDouble("price"); // Retrieve price
 
                     // Create Book object and add to the list
-                    books.add(new Book(bookName, quantity));  // Updated to 'bookName'
+                    books.add(new Book(bookName, quantity, price));
                 }
             }
 
