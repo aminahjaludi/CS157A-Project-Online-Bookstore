@@ -9,12 +9,14 @@
 <body>
 <div class="review-container">
   <h1>Submit a Review</h1>
-  <form id="review-form">
+  <form id="review-form" action="SubmitReviewServlet" method="post">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
     <label for="book">Book:</label>
     <select id="book" name="book">
-      <option value="book1">Book 1</option>
-      <option value="book2">Book 2</option>
-      <!-- Add more books dynamically -->
+      <option value="To Kill a Mockingbird">To Kill a Mockingbird</option>
+      <option value="The Catcher in the Rye">The Catcher in the Rye</option>
+      <option value="1984">1984</option>
     </select>
     <label for="review">Your Review:</label>
     <textarea id="review" name="review" rows="4" placeholder="Write your review..."></textarea>

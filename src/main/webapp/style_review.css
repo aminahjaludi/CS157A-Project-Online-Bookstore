@@ -1,0 +1,52 @@
+/* General styling for the page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* Container for the response message */
+.response-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styles */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Link styling */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-link:hover {
+    background-color: #0056b3;
+}
+
+/* Style for error or success text based on inline color */
+h1[style*="color: red;"] {
+    color: #d9534f !important; /* Bootstrap-like error color */
+}
+
+h1[style*="color: green;"] {
+    color: #5cb85c !important; /* Bootstrap-like success color */
+}
