@@ -10,11 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/bookSearch")
 public class BookSearchServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve search query from the request (if any)
-        String searchQuery = request.getParameter("search");
+        String searchQuery = StringUtils.sanitizeInput(request.getParameter("search"));
 
         // Use BookService to get the list of books (replace with actual search logic)
         BookService bookService = new BookService();

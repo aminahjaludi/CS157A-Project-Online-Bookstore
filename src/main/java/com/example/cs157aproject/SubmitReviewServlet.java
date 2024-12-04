@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,21 +15,15 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/SubmitReviewServlet")
 public class SubmitReviewServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
-    // Database connection details
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/test_schema";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "milk2000A";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");
-        String email = request.getParameter("email");
-        String book = request.getParameter("book");
-        String review = request.getParameter("review");
-        String ratingStr = request.getParameter("rating");
+        String email = StringUtils.sanitizeInput(request.getParameter("email"));
+        String book = StringUtils.sanitizeInput(request.getParameter("book"));
+        String review = StringUtils.sanitizeInput(request.getParameter("review"));
+        String ratingStr = StringUtils.sanitizeInput(request.getParameter("rating"));
 
         try {
             int rating = Integer.parseInt(ratingStr);
@@ -38,7 +35,27 @@ public class SubmitReviewServlet extends HttpServlet {
             }
 
             // Establish database connection
-            Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Connection conn = DBConnection.getConnection();
+
+            // Check if email exist in users table
+            String query = "SELECT * FROM users WHERE email = ?";
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            //If no user with that email already exists
+            if(!resultSet.next())
+            {
+                statement.close();
+                conn.close();
+                request.setAttribute("email_error_msg",
+                        "Email is not registered with bookstore. Please use a registered email.");
+
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/reviews.jsp");
+                rd.forward(request, response);
+                return;
+            }
 
             // Insert review into the database
             String sql = "INSERT INTO reviews (email, book, review, rating) VALUES (?, ?, ?, ?)";

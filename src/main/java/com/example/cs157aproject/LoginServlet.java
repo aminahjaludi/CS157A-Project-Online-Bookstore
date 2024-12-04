@@ -16,8 +16,8 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Get user input from request
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String email = StringUtils.sanitizeInput(request.getParameter("email"));
+        String password = StringUtils.sanitizeInput(request.getParameter("password"));
 
         // SQL query to check user credentials
         String query = "SELECT * FROM users WHERE email = ? AND password = SHA(?)";
@@ -25,10 +25,7 @@ public class LoginServlet extends HttpServlet {
         // Initialize database connection and resources
         try {
             // Establish connection with the database
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/test_schema",
-                    "root",
-                    "milk2000A");
+            Connection connection = DBConnection.getConnection();
 
             // Create PreparedStatement
             PreparedStatement statement = connection.prepareStatement(query);

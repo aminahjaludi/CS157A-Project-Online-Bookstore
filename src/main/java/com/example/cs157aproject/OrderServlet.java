@@ -2,6 +2,7 @@ package com.example.cs157aproject;
 
 import java.io.PrintWriter;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,21 +17,56 @@ import java.sql.SQLException;
 
 @WebServlet("/order")
 public class OrderServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");
 
-        String bookCode = request.getParameter("book");
-        String email = request.getParameter("email");
+        String bookCode = StringUtils.sanitizeInput(request.getParameter("book"));
+        String email = StringUtils.sanitizeInput(request.getParameter("email"));
 
-        if (bookCode == null || bookCode.trim().isEmpty() || email == null || email.trim().isEmpty()) {
+        if (bookCode == null || bookCode.isEmpty() || email == null || email.isEmpty()) {
             response.getWriter().println("<h1>Invalid book code or email input!</h1>");
             return;
         }
 
-        int quantity = 1; // Default quantity for this implementation
+        String quantityParam = StringUtils.sanitizeInput(request.getParameter("quantity")); // Get quantity input
+        int quantity = 1; // Default to 1 if parsing fails
+
+        try {
+            quantity = Integer.parseInt(quantityParam); // Parse quantity
+            if (quantity <= 0) { // Validate that quantity is positive
+                response.getWriter().println("<h1>Invalid quantity specified!</h1>");
+                return;
+            }
+        }
+        catch (NumberFormatException e) {
+            response.getWriter().println("<h1>Invalid quantity format!</h1>");
+            return;
+        }
+
         try (Connection conn = DBConnection.getConnection()) {
+            // Check if email exist in users table
+            String query = "SELECT * FROM users WHERE email = ?";
+
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+
+            //If no user with that email already exists
+            if(!resultSet.next())
+            {
+                statement.close();
+                conn.close();
+                request.setAttribute("email_error_msg",
+                        "Email is not registered with bookstore. Please use a registered email.");
+
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/orders.jsp");
+                rd.forward(request, response);
+                return;
+            }
+
             // Check book availability
             String checkQuery = "SELECT book_id, book_name, price, quantity FROM books WHERE book_code = ?";
             try (PreparedStatement checkStmt = conn.prepareStatement(checkQuery)) {
@@ -48,9 +84,11 @@ public class OrderServlet extends HttpServlet {
                         }
 
                         // Deduct one from the available quantity
-                        String updateQuery = "UPDATE books SET quantity = quantity - 1 WHERE book_code = ? AND quantity > 0";
+                        String updateQuery = "UPDATE books SET quantity = quantity - ? WHERE book_code = ? AND quantity - ? > 0";
                         try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
-                            updateStmt.setString(1, bookCode);
+                            updateStmt.setInt(1, quantity);
+                            updateStmt.setString(2, bookCode);
+                            updateStmt.setInt(3, quantity);
                             int rowsUpdated = updateStmt.executeUpdate();
                             if (rowsUpdated == 0) {
                                 response.getWriter().println("<h1>Unable to update stock. Please try again.</h1>");
@@ -69,50 +107,13 @@ public class OrderServlet extends HttpServlet {
                             orderStmt.executeUpdate();
                         }
 
-                        // Respond to user
-                        PrintWriter out = response.getWriter();
-                        out.println("<!DOCTYPE html>");
-                        out.println("<html lang='en'>");
-                        out.println("<head>");
-                        out.println("<meta charset='UTF-8'>");
-                        out.println("<meta name='viewport' content='width=device-width, initial-scale=1.0'>");
-                        out.println("<title>Order Confirmation</title>");
-                        out.println("<style>");
-                        out.println("body {");
-                        out.println("  font-family: Arial, sans-serif;");
-                        out.println("  display: flex;");
-                        out.println("  justify-content: center;");
-                        out.println("  align-items: center;");
-                        out.println("  height: 100vh;");
-                        out.println("  margin: 0;");
-                        out.println("  text-align: center;");
-                        out.println("}");
-                        out.println(".container {");
-                        out.println("  border: 1px solid #ddd;");
-                        out.println("  padding: 20px;");
-                        out.println("  border-radius: 10px;");
-                        out.println("  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);");
-                        out.println("}");
-                        out.println("a {");
-                        out.println("  text-decoration: none;");
-                        out.println("  color: #007bff;");
-                        out.println("}");
-                        out.println("a:hover {");
-                        out.println("  text-decoration: underline;");
-                        out.println("}");
-                        out.println("</style>");
-                        out.println("</head>");
-                        out.println("<body>");
-                        out.println("<div class='container'>");
-                        out.println("<h1>Order Confirmation</h1>");
-                        out.println("<p>Thank you for your order!</p>");
-                        out.println("<p><strong>Book:</strong> " + bookName + "</p>");
-                        out.println("<p><strong>Quantity:</strong> " + quantity + "</p>");
-                        out.println("<p><strong>Total Cost:</strong> $" + String.format("%.2f", totalCost) + "</p>");
-                        out.println("<a href='dashboard'>Back to Home</a>");
-                        out.println("</div>");
-                        out.println("</body>");
-                        out.println("</html>");
+                        // Pass the order details to the JSP
+                        request.setAttribute("bookName", bookName);
+                        request.setAttribute("quantity", quantity);
+                        request.setAttribute("totalCost", totalCost);
+
+                        // Forward to the JSP
+                        request.getRequestDispatcher("orderConfirmation.jsp").forward(request, response);
 
                     } else {
                         response.getWriter().println("<h1>Book not found!</h1>");

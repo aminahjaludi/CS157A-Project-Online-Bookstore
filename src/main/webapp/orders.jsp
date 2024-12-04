@@ -32,7 +32,7 @@
 
     <!-- Quantity Input -->
     <label for="quantity">Quantity:</label>
-    <input type="number" id="quantity" name="quantity" value="1" readonly>
+    <input type="number" id="quantity" name="quantity" min="1" required>
 
     <!-- Submit Button -->
     <button type="submit">Order Now</button>
@@ -40,6 +40,14 @@
 
   <!-- Home Link -->
   <a href="dashboard" class="home-link">Home</a>
+  <%
+    String errorMessage = (String) request.getAttribute("email_error_msg");
+    if (errorMessage != null) {
+  %>
+  <p style="color: red;"><%= errorMessage %></p>
+  <%
+    }
+  %>
 </div>
 </body>
 </html>

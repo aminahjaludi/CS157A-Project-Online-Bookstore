@@ -72,20 +72,6 @@ public class SignupServlet extends HttpServlet {
         return true;
     }
 
-    public static String sanitizePassword(String password) {
-        if (password == null) {
-            return null;
-        }
-
-        // Escape any SQL special characters to prevent injection attacks
-        String sanitized = password.replaceAll("([\"'\\\\;\\-/*`])", "\\\\$1");
-
-        // Trim any leading or trailing spaces
-        sanitized = sanitized.trim();
-
-        return sanitized;
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Get user input from request
@@ -95,10 +81,10 @@ public class SignupServlet extends HttpServlet {
         // Initialize database connection and resources
         try {
             // Establish connection with the database
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/test_schema",
-                    "root",
-                    "milk2000A");
+            Connection connection = DBConnection.getConnection();
+
+            //Sanitize email
+            email = StringUtils.sanitizeInput(email);
 
             // Check if email and password already exist in users table
             String query = "SELECT * FROM users WHERE email = ?";
@@ -126,7 +112,8 @@ public class SignupServlet extends HttpServlet {
             }
 
             // Sanitize password before inserting into database
-            password = sanitizePassword(password);
+            password = StringUtils.sanitizeInput(password);
+
 
             // SQL query to insert new user into the users table, using a hashing algorithm
             // to store password securely

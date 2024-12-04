@@ -13,24 +13,19 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/DeleteAccountServlet")
 public class DeleteAccountServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/test_schema";
-    private static final String USER = "root"; // Replace with your MySQL username
-    private static final String PASSWORD = "milk2000A"; // Replace with your MySQL password
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");
 
-        String email = request.getParameter("email");
+        String email = StringUtils.sanitizeInput(request.getParameter("email"));
 
         if (email == null || email.isEmpty()) {
             response.getWriter().println(
                     "<html><body>" +
                             "<h1>Error: Email is required.</h1>" +
-                            "<a href='delete_account.html'>Try Again</a>" +
+                            "<a href='setting.jsp'>Try Again</a>" +
                             "</body></html>"
             );
             return;
@@ -38,7 +33,7 @@ public class DeleteAccountServlet extends HttpServlet {
 
         try {
             // Establish database connection
-            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            Connection conn = DBConnection.getConnection();
 
             // Verify email existence in the database
             String selectQuery = "SELECT * FROM users WHERE email = ?";
@@ -65,7 +60,7 @@ public class DeleteAccountServlet extends HttpServlet {
                     response.getWriter().println(
                             "<html><body>" +
                                     "<h1>Error: Unable to delete account.</h1>" +
-                                    "<a href='delete_account.html'>Try Again</a>" +
+                                    "<a href='setting.jsp'>Try Again</a>" +
                                     "</body></html>"
                     );
                 }
@@ -75,7 +70,7 @@ public class DeleteAccountServlet extends HttpServlet {
                 response.getWriter().println(
                         "<html><body>" +
                                 "<h1>Error: No account found with the provided email.</h1>" +
-                                "<a href='delete_account.html'>Try Again</a>" +
+                                "<a href='setting.jsp'>Try Again</a>" +
                                 "</body></html>"
                 );
             }
@@ -87,7 +82,7 @@ public class DeleteAccountServlet extends HttpServlet {
             response.getWriter().println(
                     "<html><body>" +
                             "<h1>An error occurred. Please try again later.</h1>" +
-                            "<a href='delete_account.html'>Try Again</a>" +
+                            "<a href='setting.jsp'>Try Again</a>" +
                             "</body></html>"
             );
         }

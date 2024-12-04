@@ -6,18 +6,13 @@ import java.util.List;
 
 public class BookService {
 
-    // Database credentials
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/test_schema";
-    private static final String USER = "root";
-    private static final String PASSWORD = "milk2000A";
-
     public List<Book> searchBooks(String searchQuery) {
         List<Book> books = new ArrayList<>();
 
         // SQL query to search books
         String sql = "SELECT book_name, quantity, price FROM books WHERE book_name LIKE ?";
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // Set the search query in the prepared statement

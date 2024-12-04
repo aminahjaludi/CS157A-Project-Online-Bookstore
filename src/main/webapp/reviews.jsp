@@ -25,6 +25,14 @@
     <button type="submit">Submit Review</button>
   </form>
   <a href="dashboard" class="home-link">Home</a>
+  <%
+    String errorMessage = (String) request.getAttribute("email_error_msg");
+    if (errorMessage != null) {
+  %>
+  <p style="color: red;"><%= errorMessage %></p>
+  <%
+    }
+  %>
 </div>
 </body>
 </html>

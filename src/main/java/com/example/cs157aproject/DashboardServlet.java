@@ -36,36 +36,11 @@ public class DashboardServlet extends HttpServlet {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                        try (PrintWriter out = response.getWriter()) {
-                        out.println("<!DOCTYPE html>");
-                        out.println("<html lang=\"en\">");
-                        out.println("<head>");
-                        out.println("    <meta charset=\"UTF-8\">");
-                        out.println("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-                        out.println("    <title>User Dashboard - Online Bookstore</title>");
-                        out.println("    <link rel=\"stylesheet\" href=\"style_dashboard.css\">");
-                        out.println("</head>");
-                        out.println("<body>");
-                        out.println("    <div class=\"dashboard-container\">");
-                        out.println("        <header class=\"center-header\">");
-                        out.println("            <h1>Welcome to Your Dashboard</h1>");
-                        out.println("            <p>Hi, "+ userEmail + "!</p>");
-                        out.println("            <nav class=\"dashboard-navigation\">");
-                        out.println("                <ul>");
-                        out.println("                    <li><a href=\"search.jsp\">Search Books</a></li>");
-                        out.println("                    <li><a href=\"orders.html\">Make an Order</a></li>");
-                        out.println("                    <li><a href=\"reviews.html\">Submit a Review</a></li>");
-                        out.println("                    <li><a href=\"setting.html\">User Settings</a></li>");
-                        out.println("                </ul>");
-                        out.println("            </nav>");
-                        out.println("        </header>");
-                        out.println("        <footer>");
-                        out.println("            <a href=\"index.jsp\">Logout</a>");
-                        out.println("        </footer>");
-                        out.println("    </div>");
-                        out.println("</body>");
-                        out.println("</html>");
-                    }
+                    // Set the userEmail as an attribute for the JSP
+                    request.setAttribute("userEmail", userEmail);
+
+                    // Forward the request to the JSP
+                    request.getRequestDispatcher("dashboard.jsp").forward(request, response);
                 } else {
                     response.sendRedirect("login.jsp");
                 }
