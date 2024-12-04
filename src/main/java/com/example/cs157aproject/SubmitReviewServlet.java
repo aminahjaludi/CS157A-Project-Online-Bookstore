@@ -79,7 +79,7 @@ public class SubmitReviewServlet extends HttpServlet {
                         "<body>" +
                         "<div class='response-container'>" +
                         "<h1 style='color: " + color + ";'>" + message + "</h1>" +
-                        "<a href='dashboard.html' class='back-link'>Go back to Dashboard</a>" +
+                        "<a href='dashboard' class='back-link'>Go back to Dashboard</a>" +
                         "</div>" +
                         "</body>" +
                         "</html>"

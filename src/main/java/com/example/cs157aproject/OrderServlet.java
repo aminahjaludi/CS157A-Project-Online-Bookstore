@@ -109,7 +109,7 @@ public class OrderServlet extends HttpServlet {
                         out.println("<p><strong>Book:</strong> " + bookName + "</p>");
                         out.println("<p><strong>Quantity:</strong> " + quantity + "</p>");
                         out.println("<p><strong>Total Cost:</strong> $" + String.format("%.2f", totalCost) + "</p>");
-                        out.println("<a href='dashboard.html'>Back to Home</a>");
+                        out.println("<a href='dashboard'>Back to Home</a>");
                         out.println("</div>");
                         out.println("</body>");
                         out.println("</html>");

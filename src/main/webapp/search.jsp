@@ -15,7 +15,7 @@
         <input type="text" name="search" placeholder="Search by title" required>
         <button type="submit">Search</button>
     </form>
-    <a href="dashboard.html" class="home-link">Home</a>
+    <a href="dashboard" class="home-link">Home</a>
 </div>
 </body>
 </html>

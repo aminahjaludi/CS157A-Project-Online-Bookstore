@@ -45,8 +45,7 @@ public class LoginServlet extends HttpServlet {
                 // Successful login logic
                 // Store the user's email in the session
                 request.getSession().setAttribute("userEmail", email);
-
-                response.sendRedirect("dashboard.html");  // Redirect to Dashboard.html
+                response.sendRedirect("dashboard");
             } else {
                 // Failed login logic
                 request.setAttribute("login_error_msg", "Email and password combination are incorrect.");
