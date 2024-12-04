@@ -43,29 +43,41 @@ public class DeleteAccountServlet extends HttpServlet {
             ResultSet rs = selectStmt.executeQuery();
 
             if (rs.next()) {
-                // Delete account
-                String deleteQuery = "DELETE FROM users WHERE email = ?";
-                PreparedStatement deleteStmt = conn.prepareStatement(deleteQuery);
-                deleteStmt.setString(1, email);
-                int rowsDeleted = deleteStmt.executeUpdate();
+                // Delete account IF it matches the current user's email
+                String currUserEmail = (String) request.getSession().getAttribute("userEmail");
+                if(email.equals(currUserEmail)) {
+                    String deleteQuery = "DELETE FROM users WHERE email = ?";
+                    PreparedStatement deleteStmt = conn.prepareStatement(deleteQuery);
+                    deleteStmt.setString(1, email);
+                    int rowsDeleted = deleteStmt.executeUpdate();
 
-                if (rowsDeleted > 0) {
-                    response.getWriter().println(
-                            "<html><body style='text-align: center; padding-top: 20px;'>" +
-                                    "<h1>Account deleted successfully.</h1>" +
-                                    "<a href='index.jsp'>Return to Home</a>" +
-                                    "</body></html>"
-                    );
-                } else {
+                    if (rowsDeleted > 0) {
+                        response.getWriter().println(
+                                "<html><body style='text-align: center; padding-top: 20px;'>" +
+                                        "<h1>Account deleted successfully.</h1>" +
+                                        "<a href='index.jsp'>Return to Home</a>" +
+                                        "</body></html>"
+                        );
+                    } else {
+                        response.getWriter().println(
+                                "<html><body>" +
+                                        "<h1>Error: Unable to delete account.</h1>" +
+                                        "<a href='setting.jsp'>Try Again</a>" +
+                                        "</body></html>"
+                        );
+                    }
+
+                    deleteStmt.close();
+                }
+                else {
                     response.getWriter().println(
                             "<html><body>" +
-                                    "<h1>Error: Unable to delete account.</h1>" +
+                                    "<h1>Error: Could not delete account.</h1>" +
                                     "<a href='setting.jsp'>Try Again</a>" +
                                     "</body></html>"
                     );
                 }
 
-                deleteStmt.close();
             } else {
                 response.getWriter().println(
                         "<html><body>" +
