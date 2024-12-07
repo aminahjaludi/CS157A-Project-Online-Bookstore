@@ -17,6 +17,18 @@
       <option value="To Kill a Mockingbird">To Kill a Mockingbird</option>
       <option value="The Catcher in the Rye">The Catcher in the Rye</option>
       <option value="1984">1984</option>
+      <option value="Pride and Prejudice">Pride and Prejudice</option>
+      <option value="The Great Gatsby">The Great Gatsby</option>
+      <option value="Moby Dick">Moby Dick</option>
+      <option value="Little Women">Little Women</option>
+      <option value="The Hobbit">The Hobbit</option>
+      <option value="The Alchemist">The Alchemist</option>
+      <option value="The Lord of the Rings">The Lord of the Rings</option>
+      <option value="The Book Thief">The Book Thief</option>
+      <option value="Romeo and Juliet">Romeo and Juliet</option>
+      <option value="The Kite Runner">The Kite Runner</option>
+      <option value="Jane Eyre">Jane Eyre</option>
+      <option value="Animal Farm">Animal Farm</option>
     </select>
     <label for="review">Your Review:</label>
     <textarea id="review" name="review" rows="4" placeholder="Write your review..."></textarea>

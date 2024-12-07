@@ -28,6 +28,18 @@
       <option value="book1">To Kill a Mockingbird</option>
       <option value="book2">The Catcher in the Rye</option>
       <option value="book3">1984</option>
+      <option value="book4">Pride and Prejudice</option>
+      <option value="book5">The Great Gatsby</option>
+      <option value="book6">Moby Dick</option>
+      <option value="book7">Little Women</option>
+      <option value="book8">The Hobbit</option>
+      <option value="book9">The Alchemist</option>
+      <option value="book10">The Lord of the Rings</option>
+      <option value="book11">The Book Thief</option>
+      <option value="book12">Romeo and Juliet</option>
+      <option value="book13">The Kite Runner</option>
+      <option value="book14">Jane Eyre</option>
+      <option value="book15">Animal Farm</option>
     </select>
 
     <!-- Quantity Input -->
