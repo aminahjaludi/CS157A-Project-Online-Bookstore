@@ -6,7 +6,7 @@ In light of the growing trend of online shopping and the reliance on digital sys
 
 ### Instructions for set up and dependencies
 
-The project requires the installation of Tomcat 11, as well as the MySQL connector mysql-connector-j-9.1.0.jar (located within lib). MySQL Workbench was used to manage the database and tables. 
+The project requires the installation of Tomcat 11, as well as the MySQL connector mysql-connector-j-9.1.0.jar (located within lib). The  MySQL connector JAR file needs to be copy and pasted to the Apache Software Foundation folder (found in Program Files) -> Tomcat 11.0 -> lib folder in order for MYSQL to connect to our code. MYSQL Workbench was used to manage the database and tables. 
 
 The recommended IDE for running the project is Intellij IDEA Ultimate with the following run configurations:
 
