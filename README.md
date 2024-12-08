@@ -18,6 +18,8 @@ The recommended IDE for running the project is Intellij IDEA Ultimate with the f
 
 These run configuration details can be found under the .idea/runConfigurations folder in the project.
 
-The database user and password are specified within src/main/java/com/example/cs157aproject/DBConnection.java, to be USER = "root", PASSWORD = "milk2000A", with the connection URL = "jdbc:mysql://127.0.0.1:3306/test_schema". To run the project users can either create a user with these fields within MySQL Workbench, or change the user, password, and URL within the code to match their own.
+The database user and password are specified within src/main/java/com/example/cs157aproject/DBConnection.java, to be USER = "root", PASSWORD = "milk2000A", with the connection URL = "jdbc:mysql://127.0.0.1:3306/new_schema". To run the project users can either create a user with these fields within MySQL Workbench, or change the user, password, and URL within the code to match their own.
+
+In MySQL Workbench, run the following SQL scripts: create_schema.sql and initialize_data.sql.
 
 Assuming the database and tables have been set up using the SQL code in create_schema.sql, and initialized using the initialize_data.sql scripts, the application should run with no issues after clicking the green run button in the top right corner within Intellij.
