@@ -58,6 +58,7 @@ public class LoginServlet extends HttpServlet {
         } catch (SQLException e) {
             // Handle SQL exceptions
             e.printStackTrace();
+            response.getWriter().write("An error occurred during sign up. Please try again later.");
         } catch (ServletException e) {
             throw new RuntimeException(e);
         }
